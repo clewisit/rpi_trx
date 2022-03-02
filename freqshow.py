@@ -91,9 +91,21 @@ if __name__ == '__main__':
     pygame.display.init()
     pygame.font.init()
     pygame.mouse.set_visible(True)
+
     # Get size of screen and create main rendering surface.
     #size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-    size=(800, 600)
+
+    if pygame.display.Info().current_w > 1280:
+        screen_w = 1280
+    else:
+        screen_w = pygame.display.Info().current_w
+    
+    if pygame.display.Info().current_h > 720:
+        screen_h = 720
+    else:
+        screen_h = pygame.display.Info().current_w - 60
+
+    size = (screen_w, screen_h)
     screen = pygame.display.set_mode(size, pygame.RESIZABLE)
     pygame.display.set_caption('rpi_trx')
     
