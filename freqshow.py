@@ -92,8 +92,11 @@ if __name__ == '__main__':
     pygame.font.init()
     pygame.mouse.set_visible(True)
     # Get size of screen and create main rendering surface.
-    size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-    screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+    #size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+    size=(800, 600)
+    screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+    pygame.display.set_caption('rpi_trx')
+    
     # Display splash screen.
     splash = pygame.image.load('freqshow_splash.png')
     screen.fill(MAIN_BG)
