@@ -103,7 +103,7 @@ if __name__ == '__main__':
     if pygame.display.Info().current_h > 720:
         screen_h = 720
     else:
-        screen_h = pygame.display.Info().current_w - 60
+        screen_h = pygame.display.Info().current_h - 60
 
     size = (screen_w, screen_h)
     screen = pygame.display.set_mode(size, pygame.RESIZABLE)
@@ -124,6 +124,7 @@ if __name__ == '__main__':
     while True:
         # Process any events (only mouse events for now).
         for event in pygame.event.get():
+            print(event)
             if event.type is pygame.MOUSEBUTTONDOWN \
                     and (time.time() - lastclick) >= CLICK_DEBOUNCE:
                 lastclick = time.time()
