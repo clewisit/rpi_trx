@@ -28,14 +28,17 @@
 from views import *
 from enum import Enum
 import subprocess
+import DeMod_FM
 
 class DeModMode(Enum):
     NONE = 0
     WBFM = 1
     NBFM = 2
     AM = 3
-    NRSC5_FM = 4
-    NRSC5_AM = 5
+    USB = 4
+    LSB = 5
+    NRSC5_FM = 6
+    NRSC5_AM = 7
 
 class FreqShowController(object):
     """Class which controls the views shown in the application and mediates
@@ -68,13 +71,22 @@ class FreqShowController(object):
 
         if freq >= 88100000 and freq <= 107900000:
             new_demod_mode = DeModMode.WBFM
+        elif freq >= 108000000 and freq < 137000000:
+            new_demod_mode = DeModMode.AM
         else:
             new_demod_mode = DeModMode.NBFM
 
         self.model.close_sdr()
         if new_demod_mode == DeModMode.WBFM:
+            #self.rtl_fm_process = subprocess.Popen(
+            #    ["rtl_fm", "-M", "fm", "-s", "200000", "-r", "48000", "-f", str(freq)], stdout=subprocess.PIPE)
+            #self.aplay_process = subprocess.Popen(
+            #    ["aplay", "-r", "48000", "-f", "S16_LE"], stdin=self.rtl_fm_process.stdout)
+            fmDemod.start();
+            audioPlay.start();
+        elif new_demod_mode == DeModMode.AM:
             self.rtl_fm_process = subprocess.Popen(
-                ["rtl_fm", "-M", "fm", "-s", "200000", "-r", "48000", "-f", str(freq)], stdout=subprocess.PIPE)
+                ["rtl_fm", "-M", "am", "-s", "6000", "-r", "48000", "-f", str(freq)], stdout=subprocess.PIPE)
             self.aplay_process = subprocess.Popen(
                 ["aplay", "-r", "48000", "-f", "S16_LE"], stdin=self.rtl_fm_process.stdout)
         else:
